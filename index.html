@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE SUPREMARCY VORAX EMPIRE</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+*{box-sizing:border-box;font-family:'Cinzel',serif}
+body{margin:0;background:#0a0a0a;color:#d4af37}
+.wrap{max-width:420px;margin:0 auto;background:#111;padding:12px;min-height:100vh}
+h1{text-align:center;color:#d4af37;font-size:26px;line-height:1.1;cursor:pointer}
+.sub{text-align:center;letter-spacing:4px;font-size:11px;color:#b8962f}
+.video-box{border:2px solid #d4af37;border-radius:14px;overflow:hidden;background:#000;margin-top:10px}
+video,iframe{width:100%;height:210px;display:block;border:none}
+.card{margin-top:15px;background:#0f0f0f;border:2px solid #d4af37;border-radius:14px;padding:14px}
+.input{width:100%;background:#1a1a1a;border:2px solid #d4af37;border-radius:10px;padding:14px;color:#d4af37;text-align:center;font-size:16px}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btn{flex:1;background:#1a1a1a;border:1.5px solid #d4af37;border-radius:10px;padding:12px;color:#d4af37;font-weight:800;cursor:pointer}
+.btn.active{background:#d4af37;color:#000;box-shadow:0 0 12px #d4af37}
+.send{width:100%;margin-top:14px;background:linear-gradient(#d4af37,#b8962f);border:none;border-radius:10px;padding:16px;color:#000;font-size:20px;font-weight:900;cursor:pointer}
+#adminPanel{display:none;margin-top:12px;background:#151515;border:1.5px dashed #d4af37;border-radius:12px;padding:12px}
+#adminPanel label{font-size:10px;color:#d4af37;margin-top:10px;display:block}
+#adminPanel textarea,#adminPanel input{width:100%;background:#000;border:1px solid #d4af37;color:#d4af37;padding:8px;border-radius:6px;margin-top:4px;font-size:11px;font-family:Arial}
+.saveBtn{background:#d4af37;color:#000;border:none;padding:10px;width:100%;border-radius:8px;font-weight:900;margin-top:10px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1 id="logo" onclick="clickLogo()">THE SUPREMARCY<br>VORAX EMPIRE</h1>
+<div class="sub">SEND YOUR REPORT WHATSAPP</div>
+
+<div class="video-box">
+<video id="demo" controls><source id="vidsrc" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+<div id="vidContainer"></div>
+</div>
+
+<!-- PANEL ADMIN CACHÉ -->
+<div id="adminPanel">
+<p style="color:#d4af37;font-size:12px;text-align:center">🔐 PANEL ADMIN VORAX</p>
+
+<label>🎬 Lien nouvelle démo (YouTube ou mp4)</label>
+<input id="newLink" placeholder="https://...">
+
+<label>🚫 MESSAGE ABUSE (quand on clique ABUSE)</label>
+<textarea id="msgAbuse" rows="3">Bonjour support WhatsApp, je signale le numéro {NUM} pour ABUS GRAVE et harcèlement répété. Ce numéro menace et intimide les membres. Preuves disponibles. Merci de prendre des mesures. Ref: THE SUPREMARCY VORAX EMPIRE 2009</textarea>
+
+<label>💰 MESSAGE SCAM (quand on clique SCAM)</label>
+<textarea id="msgScam" rows="3">Bonjour support WhatsApp, je signale le numéro {NUM} pour ARNAQUE / SCAM. Ce numéro tente d'escroquer les utilisateurs avec de fausses promesses. C'est dangereux. Preuves disponibles. Ref: THE SUPREMARCY VORAX EMPIRE 2009</textarea>
+
+<label>📢 MESSAGE SPAM (quand on clique SPAM)</label>
+<textarea id="msgSpam" rows="3">Bonjour support WhatsApp, je signale le numéro {NUM} pour SPAM MASSIF. Ce numéro envoie des messages non sollicités en masse et pollue les groupes. Veuillez vérifier. Ref: THE SUPREMARCY VORAX EMPIRE 2009</textarea>
+
+<button class="saveBtn" onclick="saveAdmin()">💾 SAUVEGARDER TOUT</button>
+<p style="font-size:8px;color:#555;text-align:center;margin-top:6px">Les messages sont sauvegardés localement. Tu peux les changer quand tu veux.</p>
+</div>
+
+<div class="card">
+<input id="num" class="input" placeholder="NUMBER CIBLE 🚫">
+<div class="btns">
+<button class="btn" onclick="pick(this,'ABUSE')">ABUSE</button>
+<button class="btn" onclick="pick(this,'SCAM')">SCAM</button>
+<button class="btn" onclick="pick(this,'SPAM')">SPAM</button>
+</div>
+<button class="send" onclick="send()">SEND REPORT</button>
+</div>
+</div>
+
+<script>
+const EMPIRE_CODE="THE SUPREMARCY VORAX EMPIRE 2009";
+let motif=''; let clicks=0;
+
+// Charger les messages sauvegardés
+function loadAdmin(){
+ if(localStorage.getItem('vorax_abuse')) document.getElementById('msgAbuse').value=localStorage.getItem('vorax_abuse');
+ if(localStorage.getItem('vorax_scam')) document.getElementById('msgScam').value=localStorage.getItem('vorax_scam');
+ if(localStorage.getItem('vorax_spam')) document.getElementById('msgSpam').value=localStorage.getItem('vorax_spam');
+ if(localStorage.getItem('vorax_video')){ document.getElementById('newLink').value=localStorage.getItem('vorax_video'); changeVideo(); }
+}
+loadAdmin();
+
+function pick(el,t){document.querySelectorAll('.btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');motif=t}
+
+function clickLogo(){
+ clicks++; if(clicks>=5){
+  let p=prompt("Pass Admin Vorax:");
+  if(p==="VORAX2009"){ document.getElementById('adminPanel').style.display='block'; alert("Panel ouvert"); }else alert("Faux pass"); clicks=0;
+ }
+}
+
+function changeVideo(){
+ let l=document.getElementById('newLink').value.trim(); if(!l) return;
+ if(l.includes('youtu')){
+  let id=l.includes('youtu.be/')?l.split('youtu.be/')[1].split('?')[0]:l.split('v=')[1].split('&')[0];
+  document.getElementById('demo').style.display='none';
+  document.getElementById('vidContainer').innerHTML=`<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>`;
+ }else{ document.getElementById('vidsrc').src=l; document.getElementById('demo').style.display='block'; document.getElementById('vidContainer').innerHTML=''; document.getElementById('demo').load(); }
+}
+
+function saveAdmin(){
+ localStorage.setItem('vorax_video',document.getElementById('newLink').value);
+ localStorage.setItem('vorax_abuse',document.getElementById('msgAbuse').value);
+ localStorage.setItem('vorax_scam',document.getElementById('msgScam').value);
+ localStorage.setItem('vorax_spam',document.getElementById('msgSpam').value);
+ changeVideo();
+ alert("✅ Tout sauvegardé! Messages + vidéo mis à jour.");
+}
+
+function send(){
+ if(!num.value||!motif){alert('Numéro + motif');return}
+ let template='';
+ if(motif==='ABUSE') template=document.getElementById('msgAbuse').value;
+ if(motif==='SCAM') template=document.getElementById('msgScam').value;
+ if(motif==='SPAM') template=document.getElementById('msgSpam').value;
+ let finalMsg=template.replace('{NUM}',num.value);
+ // Ouverture officielle
+ window.open('https://www.whatsapp.com/contact/?text='+encodeURIComponent(finalMsg),'_blank');
+}
+</script>
+</body>
+</html>
