@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE SUPREMARCY VORAX EMPIRE - REAL COUNTER</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600&display=swap');
+body{margin:0;background:#060606;color:#d4af37;font-family:'Cinzel',serif}
+.wrap{max-width:420px;margin:auto;padding:12px;min-height:100vh;background:radial-gradient(ellipse at top,#1a1a0a 0%,#060606 60%)}
+.video-box{border:2px solid #d4af37;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 20px rgba(212,175,55,.4)}
+video,iframe{width:100%;height:210px;display:block;border:none}
+.logo{border:2px solid #d4af37;border-radius:12px;padding:16px;text-align:center;margin-top:12px;background:linear-gradient(#111,#0a0a0a);position:relative}
+.logo:before{content:'👑';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#060606;padding:0 8px}
+.logo h1{margin:0;font-family:'Cinzel Decorative';font-size:21px;line-height:1.2;text-shadow:0 0 10px #d4af37}
+.sub{font-size:10px;letter-spacing:4px;color:#8a7a44;margin-top:6px}
+.box{background:#0f0f0f;border:1.5px solid #d4af37;border-radius:12px;padding:12px;margin-top:14px}
+.inp{width:100%;background:#000;border:1.5px solid #d4af37;border-radius:10px;padding:12px;color:#d4af37;text-align:center;outline:none;font-size:15px}
+.counter-box{background:#1a1500;border:1px solid #d4af37;border-radius:8px;padding:10px;margin-top:10px;text-align:center;display:none}
+.counter-num{font-size:22px;font-weight:900;color:#fff;text-shadow:0 0 8px #d4af37}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.gbtn{border:1.5px solid #d4af37;border-radius:10px;padding:10px;text-align:center;cursor:pointer;background:#000;color:#d4af37;font-weight:800}
+.gbtn.active{background:#d4af37;color:#000;box-shadow:0 0 12px #d4af37}
+.copy-box{display:none;background:#111;border:1px solid #d4af37;border-radius:10px;padding:10px;margin-top:12px}
+.copy-text{width:100%;background:#000;color:#fff;border:1px solid #333;border-radius:6px;padding:8px;font-family:Arial;font-size:12px;height:115px}
+.btn-copy{width:100%;margin-top:8px;background:#d4af37;color:#000;border:none;padding:12px;border-radius:8px;font-weight:900;cursor:pointer}
+.send{width:100%;margin-top:12px;background:linear-gradient(145deg,#f1d27a,#d4af37);border:2px solid #f1d27a;border-radius:10px;padding:14px;color:#000;font-weight:900;letter-spacing:1px;cursor:pointer;box-shadow:0 0 15px rgba(212,175,55,.5)}
+#admin{display:none;margin-top:10px;background:#151515;border:1px dashed #d4af37;border-radius:8px;padding:8px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#d4af37;color:#000;padding:12px 22px;border-radius:20px;font-weight:900;display:none;z-index:99;box-shadow:0 0 15px #d4af37}
+.foot{text-align:center;font-size:8px;color:#5a4e25;margin-top:14px;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+<div class="wrap">
+<div class="video-box"><video controls><source src="https://files.catbox.moe/4kb022.mp4"></video></div>
+<div class="logo"><h1>THE SUPREMARCY<br>VORAX EMPIRE</h1><div class="sub">IMPERIAL OFFICE • EST 2009</div></div>
+<div class="box">
+<input id="num" class="inp" placeholder="NUMBER CIBLE ex: +225..." oninput="checkCounter()">
+<div id="counterBox" class="counter-box">
+<div style="font-size:10px;letter-spacing:2px">COMMUNAUTÉ VORAX</div>
+<div id="counterNum" class="counter-num">0</div>
+<div id="counterText" style="font-size:11px;color:#d4af37">signalements pour ce numéro</div>
+<div id="status" style="font-size:9px;margin-top:4px;color:#ff4444"></div>
+</div>
+<div class="grid">
+<div class="gbtn" onclick="pick(this,'ABUSE')">ABUSE</div>
+<div class="gbtn" onclick="pick(this,'SCAM')">SCAM</div>
+<div class="gbtn" onclick="pick(this,'SPAM')">SPAM</div>
+</div>
+<div id="copyBox" class="copy-box">
+<textarea id="finalText" class="copy-text" readonly></textarea>
+<button class="btn-copy" onclick="copyNow()">📋 COPIER LE TEXTE</button>
+<button class="btn-copy" style="background:#000;color:#d4af37;border:1px solid #d4af37" onclick="openWA()">↗️ OUVRIR SUPPORT WHATSAPP</button>
+</div>
+<button class="send" onclick="generate()">GENERER LE REPORT 🕷️</button>
+<div class="foot">IMPERIAL SEAL • VERIFIED • CONFIDENTIAL<br>THE SUPREMARCY VORAX EMPIRE 2009</div>
+</div>
+</div>
+<script>
+let motif='';
+let msgs={
+ABUSE:"BONJOUR SUPPORT WHATSAPP,\n\nJE SOUHAITE SIGNALER L'UTILISATEUR {NUM} QUI HARCELE LES AUTRES UTILISATEURS AVEC DES STICKERS PORNOGRAPHIQUES, DES IMAGES DE MUTILATION ET QUI LANCE SOUVENT DES APPELS VIDEO SANS CONSENTEMENT.\n\nIL A ETE SIGNALE PLUSIEURS FOIS.\n\nMERCI D'EXAMINER SON COMPTE.\n\nREF: THE SUPREMARCY VORAX EMPIRE 2009",
+SCAM:"BONJOUR SUPPORT WHATSAPP,\n\nJE SIGNALE L'UTILISATEUR {NUM} QUI UTILISE DES LIENS SUSPECTS ET PROMET DES SOMMES EXTRAVAGANTES AUX UTILISATEURS. IL A ETE SIGNALE PLUSIEURS FOIS.\n\nMERCI D'EXAMINER SON COMPTE.\n\nREF: THE SUPREMARCY VORAX EMPIRE 2009",
+SPAM:"BONJOUR SUPPORT WHATSAPP,\n\nJE SIGNALE L'UTILISATEUR {NUM} POUR SPAM, LIENS SUSPECTS ET HARCELEMENT. CET UTILISATEUR ENVOIE DES LIENS DANGEREUX, PROMET DE L'ARGENT ET HARCELE AVEC DES CONTENUS INAPPROPRIES.\n\nIL A ETE SIGNALE PLUSIEURS FOIS.\n\nMERCI D'EXAMINER SON COMPTE.\n\nREF: THE SUPREMARCY VORAX EMPIRE 2009"
+};
+function pick(e,t){document.querySelectorAll('.gbtn').forEach(x=>x.classList.remove('active'));e.classList.add('active');motif=t}
+function checkCounter(){
+let n=document.getElementById('num').value.replace(/[^0-9]/g,''); if(n.length<8){document.getElementById('counterBox').style.display='none'; return}
+let count=localStorage.getItem('vorax_'+n) || 0;
+document.getElementById('counterBox').style.display='block';
+document.getElementById('counterNum').innerText=count;
+let s=document.getElementById('status');
+if(count==0){s.innerText="🟢 PREMIER SIGNALEMENT"; s.style.color="#00ff00"}
+else if(count<10){s.innerText="🟡 EN COURS D'EXAMEN"; s.style.color="#ffcc00"}
+else {s.innerText="🔴 COMPTE SUSPECT - BAN IMMINENT"; s.style.color="#ff4444"}
+}
+function generate(){
+if(!num.value||!motif){alert("Numero + motif");return}
+let clean=num.value.replace(/[^0-9]/g,'');
+let key='vorax_'+clean;
+let current=parseInt(localStorage.getItem(key)||0)+1;
+localStorage.setItem(key,current);
+// VRAI compteur global du site
+let global=parseInt(localStorage.getItem('vorax_global')||0)+1;
+localStorage.setItem('vorax_global',global);
+checkCounter();
+let txt=msgs[motif].replace("{NUM}",num.value);
+finalText.value=txt;
+copyBox.style.display='block';
+navigator.clipboard.writeText(txt);
+showToast("✅ REPORT #"+current+" GENERÉ - "+current+" SIGNALEMENTS VORAX");
+}
+function copyNow(){navigator.clipboard.writeText(finalText.value).then(()=>showToast("✅ COPIÉ!"))}
+function openWA(){let t=encodeURIComponent(finalText.value);window.open("https://www.whatsapp.com/contact/?text="+t,"_blank")}
+function showToast(m){let e=document.getElementById('toast');e.innerText=m;e.style.display='block';setTimeout(()=>e.style.display='none',3000)}
+</script>
+</body>
+</html>
